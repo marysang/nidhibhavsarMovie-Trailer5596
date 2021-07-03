@@ -1,0 +1,19 @@
+{
+  "name": "nidhibhavsarmovie-trailer5596",
+  "version": "1.0.0",
+  "description": "technical challenge",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/marysang/nidhibhavsarMovie-Trailer5596.git"
+  },
+  "author": "nidhi",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/marysang/nidhibhavsarMovie-Trailer5596/issues"
+  },
+  "homepage": "https://github.com/marysang/nidhibhavsarMovie-Trailer5596#readme"
+}
