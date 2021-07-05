@@ -16,19 +16,25 @@ Configuration
   app.set('views', __dirname + '/views');
   app.set('view engine', 'ejs');
  
-  // app.use(require('serve-static')(__dirname + '/public'));
-  app.use(express.static('public'));
+  app.use(require('serve-static')(__dirname + '/public'));
+  // app.use(express.static('/public'));
  
+  var bodyParser = require('body-parser'); 
+  app.use(bodyParser.urlencoded({
+      extended: true
+  }));
+  app.use(bodyParser.json());
 
 
+  //user login module
   var login = require('./routes/userPage.js');
   app.get('/', login.signUpPage);
   app.post('/signupReq',login.signUpReq)
 
-
-
-  // var thriller = require('./routes/login.js');
-  // app.get('/thrillerPage', thriller.thrillerPage);
+// trailer module
+  var trailer = require('./routes/trailer.js');
+  app.get('/trailerPage', trailer.trailerPage);
+  
 
 http.createServer(app).listen(8080, function () {
   console.log('Express server listening on port ' + 8080 );

@@ -1,4 +1,4 @@
-var couchdb = require('nano')("https://127.0.0.1:5984/");
+var couchdb = require('nano')("http://127.0.0.1:5984/");
 var users = couchdb.use("users");
 
 exports.signUpPage = function (req, res) {    
@@ -6,23 +6,36 @@ exports.signUpPage = function (req, res) {
 }
 
 exports.signUpReq = function (req, res) {
-    console.log(2)
-    console.log(req.body)
-//    var userDta = req.body.udata;
+    
+    // console.log(req.body.udata)
+   var userDta = req.body.udata;
+   var email = userDta.email;
+//    console.log(email)
+   users.view("users", "userEmail",{ key: email },  function (err, body) {
+    if(!err){
+        if(body.rows.length!=0){
+            // console.log(1)
+            res.json({ status: "already_exist", msg:"User Already Exist" }) 
+            
+        }else{
+            var id=email.split("@")[0];
+            // console.log(id)
+            users.insert(userDta,id, function (error, body) {
+                if (!error) {
+                    res.json({ status: "success", id:id })
+                    //res.redirect('/thrillerPage?id=' + availableId );
+                } else {
+                    res.send(error);
+                }
+            })
+        }
+    }else{
+        res.send(error);
+    }
+
+   })
    
-    // graphic_db.insert({ tags: tags_ary, caption: caption, description: descr, author: author, base64: base64, ctype: ctype, token: token,updatedAt:updatedAt,createdOn:createdOn,secret:secret, _rev: rev_no }, availableId, function (error, body) {
-    //     if (!error) {
-    //         generateLogs("info", author + " inserted a new image with free id = " + availableId);
-    //         // res.redirect('/author_mediaGallery');
-    //         res.redirect('/author_edituploadmedia?id=' + availableId + '&body=' + body.ok);
-    //     } else {
-    //         res.send(error);
-    //     }
-    // })
-
-
-
-    // res.json({ status: "success" })
+    
 }
 
 
