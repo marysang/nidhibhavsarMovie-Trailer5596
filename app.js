@@ -29,12 +29,21 @@ Configuration
   //user login module
   var login = require('./routes/userPage.js');
   app.get('/', login.signUpPage);
-  app.post('/signupReq',login.signUpReq)
+  app.get('/signUpPage', login.signUpPage);
+  app.post('/signupReq',login.signUpReq);
+  app.get('/loginPage',login.loginPage)
+  app.post('/loginPageReq',login.loginPageReq)
+  app.get('/logout',login.logout)
 
 // trailer module
   var trailer = require('./routes/trailer.js');
   app.get('/trailerPage', trailer.trailerPage);
-  
+
+  //watchlist
+  app.get('/watchlist', trailer.watchlistPage);
+  app.post('/addToWatchlist', trailer.addToWatchlist);
+  app.get('/watchlist/movie/id', trailer.watchlistmovie);
+  app.post('/watchlist/movie/remove/id', trailer.removeFrmWatchlist);
 
 http.createServer(app).listen(8080, function () {
   console.log('Express server listening on port ' + 8080 );

@@ -21,7 +21,7 @@ app.controller('signUpContoller', function ($scope, $http,$window) {
             $http.post("/signupReq",{'udata':userData}).then(function (callback) {
             
                 if (callback.data.status==="success") { 
-                    $window.location.href = '/trailerPage?id='+callback.data.id;
+                    $window.location.href = '/loginPage';
                   
                 }else if(callback.data.status==="already_exist"){
                     swal({
@@ -44,8 +44,51 @@ app.controller('signUpContoller', function ($scope, $http,$window) {
                 });
             });
         }
+    }
 
-        
-       
-      }
+    $scope.login = function (){
+        var userData = $scope.user;
+        var email = document.getElementById("email").value;
+        var password = document.getElementById("password").value;
+
+        if(email=="" ||password==""){
+            swal({
+                type: 'error',
+                title: 'Error',
+                html: 'All fields are required'
+            });
+        }else{
+            $http.post("/loginPageReq",{'udata':userData}).then(function (callback) {
+            
+                if (callback.data.status==="success") { 
+                    $window.location.href = '/trailerPage?id='+callback.data.id;
+                  
+                }else if(callback.data.status==="email_not_exist"){
+                    swal({
+                        type: 'error',
+                        title: 'Error',
+                        html: callback.data.msg
+                    });
+                }else if(callback.data.status==="invalid_username"){
+                    swal({
+                        type: 'error',
+                        title: 'Error',
+                        html: callback.data.msg
+                    });
+                }else{
+                    swal({
+                        type: 'error',
+                        title: 'Error',
+                        html: 'Error: Please Contact Administrator !!'
+                    });
+                }
+            },function (error) {
+                swal({
+                    type: 'error',
+                    title: 'Error',
+                    html: 'Something Went Wrong. Please Contact Administrator !!'
+                });
+            });
+        }
+    }
 })
